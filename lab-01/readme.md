@@ -4,6 +4,7 @@
 
 ![image](https://github.com/user-attachments/assets/1b3da798-9843-4c76-89e6-774bccc98f10)
 
+**DC - C1**
 
 | **Component**       | **IPv6 Subnet**           | **Example**                 |
 |---------------------|-------------------------|-----------------------------|
