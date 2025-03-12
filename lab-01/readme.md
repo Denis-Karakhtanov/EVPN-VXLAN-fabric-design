@@ -6,8 +6,7 @@
 
 | **Component**       | **IPv6 Subnet**           | **Example**                 |
 |---------------------|-------------------------|-----------------------------|
-| Loopbacks (VTEPs)  | `/128`                   | `2001:db8::101/128` (spine-1) 
-|                                                 `2001:db8::201/128` (leaf-1)
+| Loopbacks (VTEPs)  | `/128`                   | `2001:db8::101/128` (spine-1) <br> `2001:db8::201/128` (leaf-1)|
 | P2P Links          | `/127`                   | `2001:db8:1::/127`          |
 | Anycast RP         | `/128`                   | `2001:db8::FFFF/128`        |
 | Tenant VRFs        | `/48` per tenant         | `2001:db8:A::/48`           |
