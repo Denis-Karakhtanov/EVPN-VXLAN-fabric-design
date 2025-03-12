@@ -4,3 +4,10 @@
 ![image](https://github.com/user-attachments/assets/1b3da798-9843-4c76-89e6-774bccc98f10)
 
 
+| **Component**       | **IPv6 Subnet**           | **Example**                 |
+|---------------------|-------------------------|-----------------------------|
+| Loopbacks (VTEPs)  | `/128`                   | `2001:db8::101/128` (Leaf-1) |
+| P2P Links          | `/127`                   | `2001:db8:1::/127`          |
+| Anycast RP         | `/128`                   | `2001:db8::FFFF/128`        |
+| Tenant VRFs        | `/48` per tenant         | `2001:db8:A::/48`           |
+| VLAN Subnets       | `/64` per VLAN           | `2001:db8:100::/64`         |
