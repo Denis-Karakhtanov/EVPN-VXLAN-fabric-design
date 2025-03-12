@@ -6,7 +6,7 @@
 
 | **Component**       | **IPv6 Subnet**           | **Example**                 |
 |---------------------|-------------------------|-----------------------------|
-| Loopbacks (VTEPs)  | `fd00:c1::X/128' spine 10X leaf 20X                   | `2001:db8::101/128` (spine-1) <br> `2001:db8::201/128` (leaf-1)|
+| Loopbacks (VTEPs)  | `fd00:c1::X/128` spine 10X leaf 20X                   | `2001:db8::101/128` (spine-1) <br> `2001:db8::201/128` (leaf-1)|
 | Loopbacks (VRF)  | `/128`                   | `2001:db8::101/128` (spine-1) <br> `2001:db8::201/128` (leaf-1)|
 | P2P Links          | `/127`                   | `2001:db8:1::/127`          |
 
