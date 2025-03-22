@@ -52,6 +52,8 @@ ipv6 ospf authentication ipsec spi 3456 md5 passphrase "leaf1-spine1"
 ### Выборочная проверка доступности и соседства
 
 ```
+Статус соседа 
+
 Neighbor 1.1.1.1 VRF default priority is 0, state is Full
   In area 0.0.0.0 interface Ethernet7
   DR is None BDR is None
@@ -60,8 +62,12 @@ Neighbor 1.1.1.1 VRF default priority is 0, state is Full
   Graceful-restart-helper mode is Inactive
   Graceful-restart attempts: 0
 
+Нахождение маршрута к его Loopback в таблице маршрутизации
+
  O3       fd00:c1::101/128 [110/20]
            via fe80::5200:ff:fed5:5dc0, Ethernet7
+
+Выполнение пингов 
 
 PING fd00:c1::101(fd00:c1::101) 52 data bytes
 60 bytes from fd00:c1::101: icmp_seq=1 ttl=64 time=115 ms
