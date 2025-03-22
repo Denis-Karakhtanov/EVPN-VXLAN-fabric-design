@@ -12,3 +12,7 @@
 | Loopbacks (VRF-a1)  | `fd00:c1:a1::X/128` for leaf                  | `fd00:c1:a1::1/128` (leaf-1)|
 | P2P Links          | `fd00:c1:N::M+1/127` (M-leaf network address starts anew with each leaf (0, 2, 4), where the high part is assigned to the spine and the leaf number is represented by N.)                  | `fd00:c1:1::/127`- leaf-01 - `fd00:c1:1::1/127` - spine-01 <br>  `fd00:c1:1::2/127`- leaf-01 - `fd00:c1:1::3/127` - spine-02 <br> `fd00:c1:2::/127`- leaf-02 - `fd00:c1:2::1/127` - spine-01 <br>  `fd00:c1:2::2/127`- leaf-02 - `fd00:c1:2::3/127` - spine-02    |
 
+Host network  2001:679:1024::/48
+
+VRF A 2001:679:1024:1:/64
+VRF B 2001:679:1024:2:/64
