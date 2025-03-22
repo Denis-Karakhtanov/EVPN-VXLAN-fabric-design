@@ -41,7 +41,7 @@ interface Ethernet1
 ipv6 ospf bfd
 ```
 
-Включаем аутентификацию для консистентной конфигурации и избежания ошибок неправильных подключений-конфигурации
+Включаем аутентификацию для консистентности и избежания ошибок неправильных подключений/конфигурации
 
 ```
 ipv6 ospf authentication ipsec spi 3456 md5 passphrase "leaf1-spine1"
@@ -67,6 +67,13 @@ leaf-01#show ipv6 route
  O3       fd00:c1::101/128 [110/20]
            via fe80::5200:ff:fed5:5dc0, Ethernet7
 
+leaf-01#ping fd00:c1::101
+PING fd00:c1::101(fd00:c1::101) 52 data bytes
+60 bytes from fd00:c1::101: icmp_seq=1 ttl=64 time=115 ms
+60 bytes from fd00:c1::101: icmp_seq=2 ttl=64 time=114 ms
+60 bytes from fd00:c1::101: icmp_seq=3 ttl=64 time=104 ms
+60 bytes from fd00:c1::101: icmp_seq=4 ttl=64 time=97.3 ms
+60 bytes from fd00:c1::101: icmp_seq=5 ttl=64 time=92.0 ms
 
 
 
