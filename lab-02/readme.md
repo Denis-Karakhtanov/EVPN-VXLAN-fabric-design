@@ -52,8 +52,6 @@ ipv6 ospf authentication ipsec spi 3456 md5 passphrase "leaf1-spine1"
 ### Выборочная проверка доступности и соседства
 
 ```
-
-Routing Process "ospf 100":
 Neighbor 1.1.1.1 VRF default priority is 0, state is Full
   In area 0.0.0.0 interface Ethernet7
   DR is None BDR is None
