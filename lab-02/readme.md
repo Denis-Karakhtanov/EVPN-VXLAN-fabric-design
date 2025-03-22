@@ -49,10 +49,10 @@ ipv6 ospf authentication ipsec spi 3456 md5 passphrase "leaf1-spine1"
 
 На каждое соединение используем уникальную фразу обозначающую устройства.
 
-### Проверяем доступность и соседство
+### Выборочная проверка доступность и соседства
 
 ```
-leaf-01#show ipv6 ospf neighbor
+
 Routing Process "ospf 100":
 Neighbor 1.1.1.1 VRF default priority is 0, state is Full
   In area 0.0.0.0 interface Ethernet7
@@ -62,12 +62,9 @@ Neighbor 1.1.1.1 VRF default priority is 0, state is Full
   Graceful-restart-helper mode is Inactive
   Graceful-restart attempts: 0
 
-leaf-01#show ipv6 route
-
  O3       fd00:c1::101/128 [110/20]
            via fe80::5200:ff:fed5:5dc0, Ethernet7
 
-leaf-01#ping fd00:c1::101
 PING fd00:c1::101(fd00:c1::101) 52 data bytes
 60 bytes from fd00:c1::101: icmp_seq=1 ttl=64 time=115 ms
 60 bytes from fd00:c1::101: icmp_seq=2 ttl=64 time=114 ms
