@@ -4,7 +4,7 @@
 
 ![image](https://github.com/user-attachments/assets/177128cc-bbc2-4bed-a8bb-c5334b1ecde1)
 
-## Настройка ospf 
+## Настройка ospfv3 ipv6 Arista с аутентификацией и bfd
 
 Выполним настройку ospf.
 
