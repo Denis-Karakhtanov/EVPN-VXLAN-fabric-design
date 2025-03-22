@@ -24,3 +24,50 @@ ipv6 router ospf 100
 ```
 
 При full ipv6 сети без ipv4 необходимо задать вручную в формате ipv4 1.1.1.* для spine/1.1.2.* для leaf
+
+### Добавляем настройки интерфейсов
+
+```
+interface Ethernet1
+   ipv6 ospf network point-to-point
+   ipv6 ospf 100 area 0.0.0.0
+```
+
+Для всех интерфейсов используется одна зона
+
+Включаем BFD для быстрого определения проблем доступности при включенном линке
+
+```
+ipv6 ospf bfd
+```
+
+Включаем аутентификацию для консистентной конфигурации и избежания ошибок неправильных подключений-конфигурации
+
+```
+ipv6 ospf authentication ipsec spi 3456 md5 passphrase "leaf1-spine1"
+```
+
+На каждое соединение используем уникальную фразу обозначающую устройства.
+
+### Проверяем доступность и соседство
+
+```
+leaf-01#show ipv6 ospf neighbor
+Routing Process "ospf 100":
+Neighbor 1.1.1.1 VRF default priority is 0, state is Full
+  In area 0.0.0.0 interface Ethernet7
+  DR is None BDR is None
+  Options is E R V6
+  Dead timer is due in 33 seconds
+  Graceful-restart-helper mode is Inactive
+  Graceful-restart attempts: 0
+
+leaf-01#show ipv6 route
+
+ O3       fd00:c1::101/128 [110/20]
+           via fe80::5200:ff:fed5:5dc0, Ethernet7
+
+
+
+
+
