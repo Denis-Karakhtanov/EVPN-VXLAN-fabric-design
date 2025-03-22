@@ -8,12 +8,19 @@
 
 Выполним настройку ospf.
 
-Включаем ipv6 unicast-routing для возможности создания инстанса OSPFv3
+# Включаем 
+```
+ipv6 unicast-routing 
+```
+для возможности создания инстанса OSPFv3
 
-Создаем сам процесс OSPF
+# Создаем сам процесс OSPF
 
+```
 ipv6 router ospf 100
-   router-id 1.1.1.1  #при full ipv6 сети без ipv4 необходимо задать вручную в формате ipv4 1.1.1.* для spine/1.1.2.* для leaf
+   router-id 1.1.1.1  
    passive-interface default
    no passive-interface Ethernet1
+```
 
+При full ipv6 сети без ipv4 необходимо задать вручную в формате ipv4 1.1.1.* для spine/1.1.2.* для leaf
