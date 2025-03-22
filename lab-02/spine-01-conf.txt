@@ -1,0 +1,61 @@
+! Command: show running-config
+! device: spine-1 (vEOS-lab, EOS-4.29.2F)
+!
+! boot system flash:/vEOS-lab.swi
+!
+no aaa root
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model ribd
+!
+hostname spine-1
+!
+spanning-tree mode mstp
+!
+interface Ethernet1
+   no switchport
+   ipv6 address fd00:c1:1::1/127
+   ip ospf neighbor bfd
+   no ipv6 ospf bfd
+   ipv6 ospf network point-to-point
+   ipv6 ospf authentication ipsec spi 3456 md5 passphrase 7 yL9QWl1V3KpZa3UflUJrPw==
+   ipv6 ospf 100 area 0.0.0.0
+!
+interface Ethernet2
+   no switchport
+   ipv6 address fd00:c1:2::1/127
+   no ip ospf neighbor bfd
+!
+interface Ethernet3
+   no switchport
+   ipv6 address fd00:c1:3::1/127
+   no ip ospf neighbor bfd
+!
+interface Ethernet4
+!
+interface Ethernet5
+!
+interface Ethernet6
+!
+interface Ethernet7
+!
+interface Ethernet8
+!
+interface Loopback0
+   ipv6 address fd00:c1::101/128
+   ipv6 ospf 100 area 0.0.0.0
+!
+interface Management1
+!
+ip routing
+!
+ipv6 unicast-routing
+!
+ipv6 router ospf 100
+   router-id 1.1.1.1
+   passive-interface default
+   no passive-interface Ethernet1
+!
+end
+spine-1#

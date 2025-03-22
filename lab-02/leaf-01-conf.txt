@@ -1,0 +1,59 @@
+! Command: show running-config
+! device: leaf-01 (vEOS-lab, EOS-4.29.2F)
+!
+! boot system flash:/vEOS-lab.swi
+!
+no aaa root
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model ribd
+!
+hostname leaf-01
+!
+spanning-tree mode mstp
+!
+interface Ethernet1
+   no switchport
+   ip address 10.0.0.1/24
+!
+interface Ethernet2
+!
+interface Ethernet3
+!
+interface Ethernet4
+!
+interface Ethernet5
+!
+interface Ethernet6
+!
+interface Ethernet7
+   no switchport
+   ipv6 address fd00:c1:1::/127
+   no ip ospf neighbor bfd
+   no ipv6 ospf bfd
+   ipv6 ospf network point-to-point
+   ipv6 ospf authentication ipsec spi 3456 md5 passphrase 7 VcsO1zLQ5lB1brVh85Kzsg==
+   ipv6 ospf 100 area 0.0.0.0
+!
+interface Ethernet8
+   no switchport
+   ipv6 address fd00:c1:1::2/127
+   no ip ospf neighbor bfd
+!
+interface Loopback0
+   ipv6 address fd00:c1::201/128
+   ipv6 ospf 100 area 0.0.0.0
+!
+interface Management1
+!
+ip routing
+!
+ipv6 unicast-routing
+!
+ipv6 router ospf 100
+   router-id 1.1.2.1
+   passive-interface default
+   no passive-interface Ethernet7
+!
+end
