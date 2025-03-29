@@ -1,4 +1,4 @@
-# Построение Underlay сети(iBGP ipv6)
+# Построение Underlay сети Arista (iBGP ipv6)
 
 ## Топология 
 
