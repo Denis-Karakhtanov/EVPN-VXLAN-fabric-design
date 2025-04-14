@@ -50,11 +50,6 @@ router bgp 4200100100
    neighbor fd00:c1::102 update-source Loopback0
    neighbor fd00:c1::102 send-community
    !
-   vlan 10
-      rd 1.1.2.1:10010
-      route-target both 10:10010
-      redistribute learned
-   !
    address-family evpn
       neighbor fd00:c1::101 activate
       neighbor fd00:c1::102 activate
@@ -138,6 +133,28 @@ vpc-1> ping 2001:679:1024:2::12
 
 ```
 
+### Создание symmetric IRB
+
+Дополнительно рассмотрим включение symmetric IRB
+
+Добавляем в конфигурацию L3 VNI
+
+```
+interface Vxlan1
+   vxlan source-interface Loopback0
+   vxlan udp-port 4789
+   vxlan encapsulation ipv6
+   vxlan vlan 10 vni 10010
+   vxlan vlan 20 vni 10020
+   vxlan vrf int vni 5000 
+```
+```
+router bgp 4200100100
+   vrf int
+      rd 1.1.2.1:5000
+      route-target import evpn 1:5000
+      route-target export evpn 1:5000
+```
 
 
 
