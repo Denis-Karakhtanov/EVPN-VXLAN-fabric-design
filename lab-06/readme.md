@@ -161,6 +161,27 @@ router bgp 4200100100
       route-target export evpn 1:5000
 ```
 
+В связи с особенностями виртуальных образов Ариста в некоторых случаях необходимо прописать неиспользуемые ipv4 адреса в vlan. 
+
+```
+interface Vlan10
+   vrf int
+   ipv6 enable
+   ip address virtual 10.0.0.1/24
+   ipv6 address virtual 2001:679:1024:1::1/64
+!
+interface Vlan20
+   vrf int
+   ipv6 enable
+   ip address virtual 20.0.0.1/24
+   ipv6 address virtual 2001:679:1024:2::1/64
+```
+
+Проверка TTL
+
+![image](https://github.com/user-attachments/assets/becdb487-9e26-495b-b0da-25ea4320db2f)
+
+
 
 
 
