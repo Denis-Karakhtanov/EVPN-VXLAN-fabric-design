@@ -133,6 +133,11 @@ vpc-1> ping 2001:679:1024:2::12
 
 ```
 
+Проверка TTL
+
+![image](https://github.com/user-attachments/assets/33334103-2ff2-43e1-bddc-b3bba79e1c6d)
+
+
 ### Создание symmetric IRB
 
 Дополнительно рассмотрим включение symmetric IRB
