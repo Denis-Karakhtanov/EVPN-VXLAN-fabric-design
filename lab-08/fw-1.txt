@@ -1,0 +1,50 @@
+fw-1#show running-config
+! Command: show running-config
+! device: fw-1 (vEOS-lab, EOS-4.29.2F)
+!
+! boot system flash:/vEOS-lab.swi
+!
+no aaa root
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model ribd
+!
+hostname fw-1
+!
+spanning-tree mode mstp
+!
+interface Ethernet1
+!
+interface Ethernet2
+!
+interface Ethernet3
+!
+interface Ethernet4
+   no switchport
+   ipv6 address fd00:c1:3::5/127
+!
+interface Ethernet5
+   no switchport
+   ipv6 address fd00:c1:3::7/127
+!
+interface Ethernet6
+!
+interface Ethernet7
+!
+interface Ethernet8
+!
+interface Loopback0
+   ipv6 address 2001:4860:4860::8888/128
+!
+interface Management1
+!
+ip routing
+!
+ipv6 unicast-routing
+!
+ipv6 route 2001:679:1024::/56 fd00:c1:3::4
+ipv6 route 2001:679:1024:a00::/56 fd00:c1:3::6
+!
+end
+fw-1#

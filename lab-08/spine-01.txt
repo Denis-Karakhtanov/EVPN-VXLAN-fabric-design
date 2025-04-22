@@ -1,0 +1,89 @@
+spine-1#show running-config
+! Command: show running-config
+! device: spine-1 (vEOS-lab, EOS-4.29.2F)
+!
+! boot system flash:/vEOS-lab.swi
+!
+no aaa root
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname spine-1
+!
+spanning-tree mode mstp
+!
+interface Ethernet1
+   no switchport
+   ipv6 address fd00:c1:1::1/127
+   no ip ospf neighbor bfd
+   no ipv6 ospf bfd
+   isis enable 100
+   isis network point-to-point
+!
+interface Ethernet2
+   no switchport
+   ipv6 address fd00:c1:2::1/127
+   no ip ospf neighbor bfd
+   isis enable 100
+   isis network point-to-point
+!
+interface Ethernet3
+   no switchport
+   ipv6 address fd00:c1:3::1/127
+   no ip ospf neighbor bfd
+   isis enable 100
+   isis network point-to-point
+!
+interface Ethernet4
+!
+interface Ethernet5
+!
+interface Ethernet6
+!
+interface Ethernet7
+!
+interface Ethernet8
+!
+interface Loopback0
+   ipv6 address fd00:c1::101/128
+   isis enable 100
+   isis network point-to-point
+!
+interface Management1
+!
+ip routing
+!
+ipv6 unicast-routing
+!
+router bgp 4200100100
+   router-id 1.1.1.1
+   bgp cluster-id 1.1.1.1
+   maximum-paths 10
+   neighbor fd00:c1::201 remote-as 4200100100
+   neighbor fd00:c1::201 update-source Loopback0
+   neighbor fd00:c1::201 route-reflector-client
+   neighbor fd00:c1::201 send-community
+   neighbor fd00:c1::202 remote-as 4200100100
+   neighbor fd00:c1::202 update-source Loopback0
+   neighbor fd00:c1::202 route-reflector-client
+   neighbor fd00:c1::202 send-community
+   neighbor fd00:c1::203 remote-as 4200100100
+   neighbor fd00:c1::203 update-source Loopback0
+   neighbor fd00:c1::203 route-reflector-client
+   neighbor fd00:c1::203 send-community
+   !
+   address-family evpn
+      neighbor fd00:c1::201 activate
+      neighbor fd00:c1::202 activate
+      neighbor fd00:c1::203 activate
+!
+router isis 100
+   net 49.0001.0001.0001.0001.00
+   is-type level-2
+   !
+   address-family ipv6 unicast
+!
+end
+spine-1#

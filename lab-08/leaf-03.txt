@@ -1,0 +1,152 @@
+leaf-03#show running-config
+! Command: show running-config
+! device: leaf-03 (vEOS-lab, EOS-4.29.2F)
+!
+! boot system flash:/vEOS-lab.swi
+!
+no aaa root
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname leaf-03
+!
+spanning-tree mode mstp
+!
+vlan 10,20,30
+!
+vrf instance int
+!
+vrf instance int2
+!
+interface Port-Channel1
+   description access-01
+   switchport trunk allowed vlan 10,20,30
+   switchport mode trunk
+   !
+   evpn ethernet-segment
+      identifier 0000:0000:0000:0000:0010
+      route-target import 00:00:00:00:00:10
+   lacp system-id dead.dead.0010
+!
+interface Ethernet1
+!
+interface Ethernet2
+   channel-group 1 mode active
+!
+interface Ethernet3
+!
+interface Ethernet4
+   no switchport
+   vrf int
+   ipv6 address fd00:c1:3::4/127
+!
+interface Ethernet5
+   no switchport
+   vrf int2
+   ipv6 address fd00:c1:3::6/127
+!
+interface Ethernet6
+!
+interface Ethernet7
+   no switchport
+   ipv6 address fd00:c1:3::/127
+   isis enable 100
+   isis network point-to-point
+!
+interface Ethernet8
+   no switchport
+   ipv6 address fd00:c1:3::2/127
+   isis enable 100
+   isis network point-to-point
+!
+interface Loopback0
+   ipv6 address fd00:c1::203/128
+   isis enable 100
+   isis passive
+!
+interface Management1
+!
+interface Vlan10
+   ipv6 enable
+   ip address virtual 10.0.0.1/24
+   ipv6 address virtual 2001:679:1024:1::1/64
+!
+interface Vlan20
+   vrf int
+   ipv6 enable
+   ip address virtual 20.0.0.1/24
+   ipv6 address virtual 2001:679:1024:2::1/64
+!
+interface Vlan30
+   vrf int2
+   ipv6 enable
+   ip address virtual 30.0.0.1/24
+   ipv6 address virtual 2001:679:1024:a01::1/64
+!
+interface Vxlan1
+   vxlan source-interface Loopback0
+   vxlan udp-port 4789
+   vxlan encapsulation ipv6
+   vxlan vlan 10 vni 10010
+   vxlan vlan 20 vni 10020
+   vxlan vlan 30 vni 10030
+   vxlan vrf int vni 5000
+   vxlan vrf int2 vni 5002
+!
+ip virtual-router mac-address 00:00:11:11:22:22
+!
+ip routing
+ip routing vrf int
+ip routing vrf int2
+!
+ipv6 unicast-routing
+ipv6 unicast-routing vrf int
+ipv6 unicast-routing vrf int2
+!
+ipv6 route vrf int ::/0 fd00:c1:3::5
+ipv6 route vrf int2 ::/0 fd00:c1:3::7
+!
+router bgp 4200100100
+   router-id 1.1.2.3
+   no bgp default ipv4-unicast
+   neighbor fd00:c1::101 remote-as 4200100100
+   neighbor fd00:c1::101 update-source Loopback0
+   neighbor fd00:c1::101 send-community
+   neighbor fd00:c1::102 remote-as 4200100100
+   neighbor fd00:c1::102 update-source Loopback0
+   neighbor fd00:c1::102 send-community
+   redistribute static
+   !
+   vlan-aware-bundle int
+      rd 1.1.2.3:1
+      route-target both 1:1
+      redistribute learned
+      vlan 10,20,30
+   !
+   address-family evpn
+      neighbor fd00:c1::101 activate
+      neighbor fd00:c1::102 activate
+   !
+   vrf int
+      rd 1.1.2.3:5000
+      route-target import evpn 1:5000
+      route-target export evpn 1:5000
+      redistribute connected
+      redistribute static
+   !
+   vrf int2
+      rd 1.1.2.3:5002
+      route-target import evpn 1:5002
+      route-target export evpn 1:5002
+      redistribute static
+!
+router isis 100
+   net 49.0001.0001.0002.0003.00
+   is-type level-2
+   !
+   address-family ipv6 unicast
+!
+end
+leaf-03#
