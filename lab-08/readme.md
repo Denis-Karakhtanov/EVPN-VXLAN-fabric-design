@@ -4,12 +4,6 @@
 
 ![image](https://github.com/user-attachments/assets/db373b73-f9a6-4f01-b6da-3e1ee219d08d)
 
-VRF int
-2001:679:1024:1:/64
-2001:679:1024:2:/64
-
-VRF int2 
-2001:679:1024:A01:/64
 
 | **VRF**       | **IPv6 Subnet**           | 
 |---------------------|-------------------------|
