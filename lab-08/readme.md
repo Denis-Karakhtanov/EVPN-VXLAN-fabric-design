@@ -153,8 +153,8 @@ interface Vlan30
       route-target export evpn 1:5002
       redistribute static
 
-ipv6 route 2001:679:1024::/56 fd00:c1:3::4
-ipv6 route 2001:679:1024:a00::/56 fd00:c1:3::6
+ipv6 route vrf int ::/0 fd00:c1:3::5
+ipv6 route vrf int2 ::/0 fd00:c1:3::7
 ```
 
 Добавляем маршруты в сети vrf int и int 2 на fw-01 для взаимодействия между ними
