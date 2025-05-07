@@ -159,6 +159,26 @@ set interfaces irb unit 200 family inet address 10.200.1.1/24 preferred
 set interfaces irb unit 200 family inet address 10.200.1.1/24 virtual-gateway-address 10.200.1.3
 ```
 
+##### EVPN Multihoming
+
+Для поддержки legacy access and management коммутаторов используются технологии EVPN Multihoming
+
+![image](https://github.com/user-attachments/assets/a98e3544-c779-4547-a093-1e9509e43114)
+
+
+Конфигурация для leaf
+
+```
+set interfaces ae1 description "legacy"
+set interfaces ae1 esi 00:11:11:11:11:11:11:11:20:00
+set interfaces ae1 esi all-active
+set interfaces ae1 aggregated-ether-options lacp active
+set interfaces ae1 aggregated-ether-options lacp periodic fast
+set interfaces ae1 aggregated-ether-options lacp system-id 00:40:00:00:00:11
+set interfaces ae1 unit 0 family ethernet-switching interface-mode trunk
+set interfaces ae1 unit 0 family ethernet-switching vlan members vlan100
+
+```
 
 
 ### Проверка отказоустойчивости
