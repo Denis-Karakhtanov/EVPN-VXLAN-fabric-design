@@ -1,4 +1,4 @@
-# Архитектура распределённых EVPN/VXLAN-фабрик с междатацентровой связью по L3VPN/MPLS
+ # Архитектура распределённых EVPN/VXLAN-фабрик с междатацентровой связью по L3VPN/MPLS
 
 ## Цели проекта и обоснование выбора технологии EVPN/VXLAN
 
@@ -91,6 +91,30 @@ set protocols bgp group evpn bfd-liveness-detection multiplier 3
 set protocols bgp group evpn bfd-liveness-detection session-mode automatic
 set protocols bgp group evpn neighbor 172.X.X.X description spine1
 set protocols bgp group evpn neighbor 172.X.X.X description spineX
+```
+
+##### EVPN MAC-VRF Routing Instance
+
+Все взаимодействие EVPN будет использовано с использованием отдельной mac-vrf vlan aware routing instance.
+
+
+Leaf-X
+
+```
+set routing-instances 1 instance-type mac-vrf
+set routing-instances 1 protocols evpn encapsulation vxlan
+set routing-instances 1 protocols evpn default-gateway do-not-advertise
+set routing-instances 1 protocols evpn extended-vni-list all
+set routing-instances 1 vtep-source-interface lo0.0
+set routing-instances 1 service-type vlan-aware
+set routing-instances 1 interface xe-0
+set routing-instances 1 interface xe-1
+set routing-instances 1 route-distinguisher 172.X.X.X:1
+set routing-instances 1 vrf-target target:64510:1
+set routing-instances 1 vlans vlan100 description "test"
+set routing-instances 1 vlans vlan100 vlan-id 100
+set routing-instances 1 vlans vlan100 vxlan vni 10100
+
 ```
 
 
