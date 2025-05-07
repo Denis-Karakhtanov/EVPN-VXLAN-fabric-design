@@ -18,27 +18,18 @@
 
 
 
-```
-vlan 10,20
-!
-interface Port-Channel1
-   description uplink
-   switchport mode trunk
-!
-interface Ethernet1
-   switchport access vlan 10
-!
-interface Ethernet2
-   switchport access vlan 10
-!
-interface Ethernet7
-   channel-group 1 mode passive
-!
-interface Ethernet8
-   channel-group 1 mode passive
-```
+#### Ключевые используемые технологии
 
-В конфигурации создаем обычный port-channel, данный коммутатор не знает, что он подключен в фабрику. 
+- Underlay: Intermediate System to Intermediate System protocol
+- Control plane - bgp evpn, data plane - vxlan
+- EVPN-VXLAN Edge-Routed Bridging Fabric
+- EVPN-VXLAN Central-Routed Bridging Fabric
+- EVPN Multihoming
+- VRF Route Leaking
+- Equal-cost multi-path routing
+- EVPN MAC-VRF Routing Instance
+- EVPN Asymmetric IRB
+
 
 #### Создание EVPN active/active multihoming подключение
 
