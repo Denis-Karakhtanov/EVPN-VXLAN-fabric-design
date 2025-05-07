@@ -90,7 +90,7 @@ set protocols bgp group evpn bfd-liveness-detection minimum-interval 1000
 set protocols bgp group evpn bfd-liveness-detection multiplier 3
 set protocols bgp group evpn bfd-liveness-detection session-mode automatic
 set protocols bgp group evpn neighbor 172.X.X.X description spine1
-set protocols bgp group evpn neighbor 172.X.X.X description speneX
+set protocols bgp group evpn neighbor 172.X.X.X description spineX
 ```
 
 
