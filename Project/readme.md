@@ -31,21 +31,24 @@
 - EVPN Asymmetric IRB
 
 
-#### Создание EVPN active/active multihoming подключение
+#### Примеры настройки типового DC на оборудовании Juniper
+
+##### Underlay: Intermediate System to Intermediate System protocol
+
+Необходимо обеспечить доступность loopback между оборудование фабрики.
+
+Все линки используют point-to-point и level 2 wide-metrics-only, level 1 отключаем.
 
 ```
-interface Port-Channel1
-   description access-01
-   switchport trunk allowed vlan 10,20
-   switchport mode trunk
-   !
-   evpn ethernet-segment
-      identifier 0000:0000:0000:0000:0010
-      route-target import 00:00:00:00:00:10
-   lacp system-id dead.dead.0010
-!
-interface Ethernet2
-   channel-group 1 mode active
+set policy-options policy-statement isis-export term loopback from interface lo0.0
+set policy-options policy-statement isis-export term loopback then accept
+set policy-options policy-statement isis-export then reject
+set protocols isis interface et1 point-to-point
+set protocols isis interface et2 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis export isis-export
 ```
 
 Одинаковая конфигурация на leaf-02 и leaf-03, необходимо указать route-target import, которая будет применяться и на экспорт.
