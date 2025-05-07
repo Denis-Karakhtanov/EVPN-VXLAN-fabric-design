@@ -114,7 +114,49 @@ set routing-instances 1 vrf-target target:64510:1
 set routing-instances 1 vlans vlan100 description "test"
 set routing-instances 1 vlans vlan100 vlan-id 100
 set routing-instances 1 vlans vlan100 vxlan vni 10100
+```
 
+##### EVPN-VXLAN Edge-Routed Bridging Fabric
+
+Основной метод взаимодействия внутри DC это assymetric IRB with edge routing
+
+```
+set interfaces irb unit 100 virtual-gateway-accept-data
+set interfaces irb unit 100 family inet address 10.100.1.1/24 preferred
+set interfaces irb unit 100 family inet address 10.100.1.1/24 virtual-gateway-address 10.100.1.3
+set interfaces irb unit 100 virtual-gateway-v4-mac 00:00:5e:00:00:60
+```
+
+Конфигурация для всех leaf.
+
+##### EVPN-VXLAN Central-Routed Bridging Fabric
+
+При необходимости использования ACL на определенных сетях, будет использоваться CRB с шлюзом на border-leaf, которые имеют больше возможностей фильтрации.
+
+Конфигурация для всех leaf, добавление vlan в mac-vrf без шлюза.
+
+```
+set routing-instances 1 vlans vlan200 description "test-crb"
+set routing-instances 1 vlans vlan200 vlan-id 200
+set routing-instances 1 vlans vlan200 vxlan vni 10200
+```
+
+Конфигурация для border-leaf, создание mac-vrf и шлюза сети
+
+```
+set routing-instances 1 instance-type mac-vrf
+set routing-instances 1 protocols evpn encapsulation vxlan
+set routing-instances 1 protocols evpn default-gateway no-gateway-community
+set routing-instances 1 protocols evpn extended-vni-list all
+set routing-instances 1 vtep-source-interface lo0.0
+set routing-instances 1 bridge-domains vlan200 vlan-id 200
+set routing-instances 1 bridge-domains vlan200 routing-interface irb.200
+set routing-instances 1 bridge-domains vlan200 vxlan vni 10200
+
+set interfaces irb unit 200 proxy-macip-advertisement
+set interfaces irb unit 200 virtual-gateway-accept-data
+set interfaces irb unit 200 family inet address 10.200.1.1/24 preferred
+set interfaces irb unit 200 family inet address 10.200.1.1/24 virtual-gateway-address 10.200.1.3
 ```
 
 
