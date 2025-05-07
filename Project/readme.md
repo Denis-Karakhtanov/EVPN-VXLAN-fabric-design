@@ -204,7 +204,43 @@ set interfaces ae1 unit 0 family ethernet-switching vlan members vlan100
 
 Border leaf каждого DC имеет связь с локальным RR, а так же с RR других ЦОД для обеспечения отказоустойчивости обмена маршрутами. 
 
+Общий underlay транспортной сети использует протокол маршрутизации isis.
 
+Взаимодействия между evpn/vxlan и l3vpn/mpls осуществляется с помощью VRF route leaking на border leaf.
+
+Пример конфигурации
+
+```
+set routing-instances evpn vrf-import evpn-vrf-import
+set routing-instances evpn vrf-export evpn-vrf-export
+set routing-instances evpn vrf-table-label
+
+set routing-instances l3vpn vrf-import l3vpn-vrf-import
+set routing-instances l3vpn vrf-export l3vpn-vrf-export
+set routing-instances l3vpn vrf-table-label
+
+set policy-options policy-statement l3vpn-vrf-import term inside from community rt:l3vpn
+set policy-options policy-statement l3vpn-vrf-import term inside then accept
+set policy-options policy-statement l3vpn-vrf-import term inside-evpn from community rt:evpn
+set policy-options policy-statement l3vpn-vrf-import term inside-evpn then accept
+
+
+set policy-options policy-statement evpn-vrf-import term inside-evpn from community rt:evpn
+set policy-options policy-statement evpn-vrf-import term inside-evpn then accept
+set policy-options policy-statement evpn-vrf-import term inside from community rt:l3vpn
+set policy-options policy-statement evpn-vrf-import term inside then accept
+
+```
+
+Необходимо учитывать, что внутри одного DC обмен маршрутами между border-leaf по evpn/l3pn должен быть заблокирован для предотвращения петель маршрутов
+
+```
+set policy-options policy-statement inside-vrf-import term loop from community border-leaf-X
+set policy-options policy-statement inside-vrf-import term loop then reject
+
+set policy-options policy-statement inside-evpn-vrf-import term loop from community border-leaf-X
+set policy-options policy-statement inside-evpn-vrf-import term loop then reject
+```
 
 
 
