@@ -25,7 +25,6 @@
 - EVPN-VXLAN Edge-Routed Bridging Fabric
 - EVPN-VXLAN Central-Routed Bridging Fabric
 - EVPN Multihoming
-- VRF Route Leaking
 - Equal-cost multi-path routing
 - EVPN MAC-VRF Routing Instance
 - EVPN Asymmetric IRB
@@ -179,6 +178,17 @@ set interfaces ae1 unit 0 family ethernet-switching interface-mode trunk
 set interfaces ae1 unit 0 family ethernet-switching vlan members vlan100
 
 ```
+
+##### Equal-cost multi-path routing
+
+Для обеспечения равномерного распределения трафика в underlay и overlay везде необходимо использовать опцию multipath
+
+##### Подключение внешних соединений DC и фильтрация трафика
+
+Подключение внешних сегментов осуществляется через border leaf и стандартный BGP unicast routing
+
+![image](https://github.com/user-attachments/assets/9157877d-0b72-4c14-930f-34e46ec46373)
+
 
 
 ### Проверка отказоустойчивости
