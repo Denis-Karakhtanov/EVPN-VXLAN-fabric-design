@@ -29,6 +29,7 @@
 - Equal-cost multi-path routing
 - EVPN MAC-VRF Routing Instance
 - EVPN Asymmetric IRB
+- BGP IPv4 unicast
 
 
 #### Примеры настройки типового DC на оборудовании Juniper
@@ -51,40 +52,47 @@ set protocols isis level 2 wide-metrics-only
 set protocols isis export isis-export
 ```
 
-Одинаковая конфигурация на leaf-02 и leaf-03, необходимо указать route-target import, которая будет применяться и на экспорт.
-
-ESI метка создается вручную в произвольном формате начиная с 0000:
+Одинаковая конфигурация на leaf и spine
 
 
-### Проверка доступности хостов и анонсов
+##### Control plane - bgp evpn, data plane - vxlan
 
-```
-leaf-01#show bgp evpn route-type ethernet-segment
-BGP routing table information for VRF default
-Router identifier 1.1.2.1, local AS number 4200100100
-Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
-                    c - Contributing to ECMP, % - Pending BGP convergence
-Origin codes: i - IGP, e - EGP, ? - incomplete
-AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+Для создания overlay сети и обмена маршрутной информацией используется iBGP с функией RR на spine с функцией BFD
 
-          Network                Next Hop              Metric  LocPref Weight  Path
- * >Ec    RD: 1.1.2.2:1 ethernet-segment 0000:0000:0000:0000:0010 fd00:c1::202
-                                 fd00:c1::202          -       100     0       i Or-ID: 1.1.2.2 C-LST: 1.1.1.1
- *  ec    RD: 1.1.2.2:1 ethernet-segment 0000:0000:0000:0000:0010 fd00:c1::202
-                                 fd00:c1::202          -       100     0       i Or-ID: 1.1.2.2 C-LST: 1.1.1.2
-```
-
+Spine-X
 
 ```
-vpc-1> ping 2001:679:1024:1::12
+set protocols bgp group evpn type internal
+set protocols bgp group evpn description "evpn/vxlan"
+set protocols bgp group evpn local-address 172.X.X.X
+set protocols bgp group evpn family evpn signaling
+set protocols bgp group evpn family route-target
+set protocols bgp group evpn cluster 172.X.X.X
+set protocols bgp group evpn multipath
+set protocols bgp group evpn bfd-liveness-detection minimum-interval 1000
+set protocols bgp group evpn bfd-liveness-detection multiplier 3
+set protocols bgp group evpn bfd-liveness-detection session-mode automatic
+set protocols bgp group evpn neighbor 172.X.X.X description leaf1
+set protocols bgp group evpn neighbor 172.X.X.X description leaf2
+set protocols bgp group evpn neighbor 172.X.X.X description leaf3
+```
 
-2001:679:1024:1::12 icmp6_seq=1 ttl=64 time=249.987 ms
-2001:679:1024:1::12 icmp6_seq=2 ttl=64 time=50.019 ms
-2001:679:1024:1::12 icmp6_seq=3 ttl=64 time=48.323 ms
-2001:679:1024:1::12 icmp6_seq=4 ttl=64 time=51.428 ms
-2001:679:1024:1::12 icmp6_seq=5 ttl=64 time=45.099 ms
+Leaf-X
 
 ```
+set protocols bgp group evpn type internal
+set protocols bgp group evpn description "evpn/vxlan"
+set protocols bgp group evpn local-address 172.X.X.X
+set protocols bgp group evpn family evpn signaling
+set protocols bgp group evpn family route-target
+set protocols bgp group evpn multipath
+set protocols bgp group evpn bfd-liveness-detection minimum-interval 1000
+set protocols bgp group evpn bfd-liveness-detection multiplier 3
+set protocols bgp group evpn bfd-liveness-detection session-mode automatic
+set protocols bgp group evpn neighbor 172.X.X.X description spine1
+set protocols bgp group evpn neighbor 172.X.X.X description speneX
+```
+
 
 
 ### Проверка отказоустойчивости
