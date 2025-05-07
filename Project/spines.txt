@@ -1,0 +1,23 @@
+set policy-options policy-statement isis-export term loopback from interface lo0.0
+set policy-options policy-statement isis-export term loopback then accept
+set policy-options policy-statement isis-export then reject
+set protocols isis interface et1 point-to-point
+set protocols isis interface et2 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis export isis-export
+
+set protocols bgp group evpn type internal
+set protocols bgp group evpn description "evpn/vxlan"
+set protocols bgp group evpn local-address 172.X.X.X
+set protocols bgp group evpn family evpn signaling
+set protocols bgp group evpn family route-target
+set protocols bgp group evpn cluster 172.X.X.X
+set protocols bgp group evpn multipath
+set protocols bgp group evpn bfd-liveness-detection minimum-interval 1000
+set protocols bgp group evpn bfd-liveness-detection multiplier 3
+set protocols bgp group evpn bfd-liveness-detection session-mode automatic
+set protocols bgp group evpn neighbor 172.X.X.X description leaf1
+set protocols bgp group evpn neighbor 172.X.X.X description leaf2
+set protocols bgp group evpn neighbor 172.X.X.X description leafX
