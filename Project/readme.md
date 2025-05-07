@@ -191,34 +191,21 @@ set interfaces ae1 unit 0 family ethernet-switching vlan members vlan100
 
 
 
-### Проверка отказоустойчивости
+### Рассмотрение архитектуры взаимодействия ЦОД в проекте
 
-```
-interface Ethernet2
-   shutdown
-```
+Общая структурная схема 
 
-Отключаем интерфейс на leaf-02 в сторону access-01
+![image](https://github.com/user-attachments/assets/6525758e-2923-41bd-a55b-7899b5e014ca)
 
-Проверяем доступность
 
-```
-access-01#show lacp aggregates
-Port Channel Port-Channel1:
- Aggregate ID: [(8000,50-00-00-af-d3-f6,0001,0000,0000),(8000,de-ad-de-ad-00-10,0001,0000,0000)]
-  Bundled Ports: Ethernet8
-```
+Структура транспортной сети MPLS с использованием отдельных RR для обмена маршрутов l3vpn 
 
-```
-ping 2001:679:1024:1::12
+![image](https://github.com/user-attachments/assets/25248e13-0ed3-41c2-8ae0-3146e52c5e71)
 
-2001:679:1024:1::12 icmp6_seq=1 ttl=64 time=48.727 ms
-2001:679:1024:1::12 icmp6_seq=2 ttl=64 time=46.188 ms
-2001:679:1024:1::12 icmp6_seq=3 ttl=64 time=49.962 ms
-2001:679:1024:1::12 icmp6_seq=4 ttl=64 time=46.177 ms
-2001:679:1024:1::12 icmp6_seq=5 ttl=64 time=45.867 ms
+Border leaf каждого DC имеет связь с локальным RR, а так же с RR других ЦОД для обеспечения отказоустойчивости обмена маршрутами. 
 
-```
+
+
 
 
 
