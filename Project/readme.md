@@ -243,6 +243,18 @@ set policy-options policy-statement inside-evpn-vrf-import term loop then reject
 ```
 
 
+### Рассмотрение сценариев отказоустойчивости DCI
+
+При отключение прямых соединений между ЦОД трафик автоматически перестраивается через другой DC через общий isis underlay
+
+![image](https://github.com/user-attachments/assets/e64a0ced-516e-40f2-9adb-aa6d7ad52f7b)
+
+
+Так же можно добавить низкоскоростные дополнительные линии связи в случае потери основных
+
+![image](https://github.com/user-attachments/assets/8591b805-3278-4d2b-923a-20e3bf360fae)
+
+
 
 
 
