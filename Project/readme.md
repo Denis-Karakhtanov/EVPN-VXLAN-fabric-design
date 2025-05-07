@@ -74,7 +74,7 @@ set protocols bgp group evpn bfd-liveness-detection multiplier 3
 set protocols bgp group evpn bfd-liveness-detection session-mode automatic
 set protocols bgp group evpn neighbor 172.X.X.X description leaf1
 set protocols bgp group evpn neighbor 172.X.X.X description leaf2
-set protocols bgp group evpn neighbor 172.X.X.X description leaf3
+set protocols bgp group evpn neighbor 172.X.X.X description leafX
 ```
 
 Leaf-X
